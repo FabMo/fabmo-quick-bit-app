@@ -1,0 +1,20 @@
+'Set arbitrary Z-Zero height
+'  2/2/17, 3/16/17 th
+
+ IF %(25)=1 THEN GOSUB UNIT_ERROR	'make sure we are in inches for doing zeroing, auto restore mm
+
+'This routine will use the current location of the Z axis to set the cutter offset for Zeroing
+
+'Before using this routine you should have run "Set XYZ Home Location" (Macro#3) and positioned the Z to where you would like your new, Z-Zero location set (Quit now and do this, if not).
+	PAUSE
+
+'Read in current System Variables for current Z and Z-tablebase-offset
+	&tempTB_Zoffset = %(8) 
+	&temp_Zloc = %(3)
+
+	&total_newTB_Zoffset = &temp_Zloc + &tempTB_Zoffset
+
+'Reset current_cutter and Set Table Base Coordinates and Location to 0 for Z
+	$current_cutter_Zoffset = $current_cutter_Zoffset - &total_newTB_Zoffset
+	VA,,, 0,,,,,, 0
+

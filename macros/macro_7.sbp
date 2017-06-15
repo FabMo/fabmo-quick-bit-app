@@ -1,0 +1,2 @@
+' Stop the spindle
+SO,1,0

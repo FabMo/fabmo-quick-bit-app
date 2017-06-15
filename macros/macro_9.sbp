@@ -1,0 +1,14 @@
+' Tool Change (temporary, simplified)
+
+$current_tool := 0        ' define initial non-tool
+
+IF &Tool = $current_tool THEN GOTO NoChange
+$current_tool = &Tool
+
+'If Tool Change Needed -- Quit Here, else Resume (Manual Tool Change Not Yet Supported.)
+Pause
+END
+
+NoChange:
+END
+

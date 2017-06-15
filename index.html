@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quick-Bit</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <link href="css/pure-min.css" rel="stylesheet">
+    <link href="css/forms-min.css" rel="stylesheet">
+    <link href="css/grids-responsive-min.css" rel="stylesheet">
+
+  </head>
+  <body>
+	<script src="js/lib/jquery.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/fabmo.js"></script>
+  	<script type="text/javascript">
+  		var fabmo = new FabMoDashboard();
+      var editor;
+      var lang="gcode";
+      var source=null;
+      var source_data=null;
+      var job_description=null;
+      var job_title=null;
+  	</script>
+
+    <div class="container">
+      <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+      <li class="active"><a href="#tab-measure" role="tab" data-toggle="tab">Quick-Bit</a></li>
+        <li><a class="long" href="#tab-settings" role="tab" data-toggle="tab">Settings</a></li>
+        <li><a class="long" id="config-tab-link" href="#tab-config" role="tab" data-toggle="tab">HELP</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- Quick-Bit/start pane -->
+        <div class="tab-pane active" id="tab-measure">
+            <h2 class="long"><strong>Quick-Bit</strong></h2>
+            <p class="long">Use this app to quickly measure your cutter length using the pressure sensitive z zero plate accessory.</p>
+        <div>
+            <hr class="long" width = "90%" noshade>
+                <p class="long"> </p>
+              <h3><a class="btn btn-success btn-lg" id="call-c88"> Measure Cutter </a> <span class="long"></h3>
+			  <h4><a class="btn btn-primary" id="install-macro88"> INSTALL Macro </a></span></h4>
+            </div>
+				<div class="pure-u-1 pure-u-md-1-2 image-container">
+          <div class="image-wrapper">
+            <img class='pure-img' src="images/in_front.png">
+            <p class='diameter-id'></p>
+            <p class='depth-id'></p>
+          </div>
+        </div>  
+            <div>
+  <!--
+              <h3><a class="btn btn-success" id="call-reset-z-off"> Reset Value for Zeroing Plate Height </a> </h3>
+                <p>You may find it necessary, on occasion, to adjust the value for the distance between the Zeroing plate and the material surface that is used to compute the "cutter-length-offset". This routine will step you through the process of getting the correct plate height.</p>
+-->
+            </div>  
+        </div><!-- start pane -->
+
+        <!-- Settings Pane -->
+        <div class="tab-pane" id="tab-settings">
+          <h2>Preference Settings</h2>
+	          <p>Your Handibot comes with a number of variables with preset values that it uses in operations to assist you.  These variables all have default values, but you are able to modify them to suit your specific needs. After you change them, the values will persist even when the tool is turned off. These preference settings are conceptually at a higher, use-and-utility level than the values set in the System Configuration available in the left side pull out; the latter define the actual motion and mechanical operation of the tool.</p>
+	          <p>The preference settings are saved using a system of "persistent variables". There are several ways these persistent variables can be modified directly or by job files, but for the moment the simplest approach is to just change them here.</p>
+
+       	    <!-- Responsive form for inputting preferences -->
+	        <div class="row">
+	             <div class="col-sm-7" style="margin-left: auto; margin-right: auto; text-align: left; ">
+	              <form class="form-horizontal" id="form-jobs">
+	              <h4>Variables for Setting X and Y Home Location </h4>
+	              <p>These variables are used to set the Home location for X and Y zero. </p>
+	                <div class="form-group">
+	                  <label for="pref-input-xpullback" class="col-sm-3 control-label">X Pull-back</label>
+	                  <div class="col-sm-9">
+	                    <div class="input-group has-success">
+	                      <input class="form-control num-input" id="pref-input-x-pull" value=".10">
+	                      <span class="input-group-addon">in</span>
+	                    </div>
+	                  </div>
+	                </div>
+	                <div class="form-group">
+	                  <label for="pref-input-ypullback" class="col-sm-3 control-label">Y Pull-back</label>
+	                  <div class="col-sm-9">
+	                    <div class="input-group has-success">
+	                      <input class="form-control num-input" id="pref-input-y-pull" value=".10">
+	                      <span class="input-group-addon">in</span>
+	                    </div>
+	                  </div>
+	                </div>
+	              <h4>Variables for Setting ZZero Location </h4>
+	              <p>These variables are used during zeroing to set the location for Z zero. </p>
+	                  <div class="form-group">
+	                  <label for="job-input-zlength" class="col-sm-3 control-label">Cutter Length</label>
+	                  <div class="col-sm-9">
+	                    <div class="input-group has-success">
+	                      <input class="form-control num-input" id="pref-input-cur-zlength" value=".25">
+	                      <span class="input-group-addon">in</span>
+	                    </div>
+	                  </div>
+	                </div>
+	                <div class="form-group">
+	                  <label for="job-input-zto-surf" class="col-sm-3 control-label">Zero Plate Thickness</label>
+	                  <div class="col-sm-9">
+	                    <div class="input-group has-success">
+	                      <input class="form-control num-input" id="pref-input-sandwich-thickness" value=".570">
+	                      <span class="input-group-addon">in</span>
+	                    </div>
+	                  </div>
+	                </div>
+	              <h4>Variables for Setting a Parking Location </h4>
+	              <p>Setting the location for move to a Park location. You might use this at the end of jobs. There is a button for it in the Fire-Up! App. </p>
+	                  <div class="form-group">
+	                  <label for="job-input-xpark" class="col-sm-3 control-label">X Park Location</label>
+	                  <div class="col-sm-9">
+	                    <div class="input-group has-success">
+	                      <input class="form-control num-input" id="pref-input-x-park" value="3">
+	                      <span class="input-group-addon">in</span>
+	                    </div>
+	                  </div>
+	                </div>
+	                <div class="form-group">
+	                  <label for="job-input-ypark" class="col-sm-3 control-label">Y Park Location</label>
+	                  <div class="col-sm-9">
+	                    <div class="input-group has-success">
+	                      <input class="form-control num-input" id="pref-input-y-park" value="7">
+	                      <span class="input-group-addon">in</span>
+	                    </div>
+	                  </div>
+	                </div>
+	                <div class="form-group">
+	                  <label for="job-input-zpark" class="col-sm-3 control-label">Z Park Location</label>
+	                  <div class="col-sm-9">
+	                    <div class="input-group has-success">
+	                      <input class="form-control num-input" id="pref-input-z-park" value="1.5">
+	                      <span class="input-group-addon">in</span>
+	                    </div>
+	                  </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                  <div class="col-sm-12 has-success" style="text-align: right;">
+	                    <a class="btn btn-success btn-lg" id="pref-save">SAVE</a>&nbsp;&nbsp;<a href="#tab-details" class="btn btn-warning btn-lg" id="pref-cancel">CANCEL</a>
+	                  </div>
+	                </div>
+	              </form>
+	             </div> 
+	          </div> <!-- row -->
+        </div> <!-- tab pane -->
+
+        <div class="tab-pane" id="tab-config">
+          <h2>Additional Help Resources</h2>
+            <p>Handibots are a new kind of power tool. They are intrinsically safer than manual power tools. But please read the safety information to understand the precautions you should observe with these new tools.</p>
+          <h3><a class="btn btn-primary" id="get-safety"> Get Safety Information for Using Handibots </a></h3>
+            <p>The Handibot Manual provides information on getting-started, setting-up, and using your Handibot.</p>
+          <h3><a class="btn btn-primary" id="get-manual"> Get the Handibot Manual </a></h3>
+            <p>Additional resources and help are available on the Handibot User Forum.</p>
+          <h3><a class="btn btn-primary" id="go-forum"> Handibot Forum </a></h3>
+          
+          <hr width = "90%" noshade>
+          <hr width = "90%" noshade>
+            
+          <h3>System Configuration Information to Share with Tech Support</h3>
+            <p>The following is a listing of the current, system-wide configuration tree for the FabMo digital fabrication platform that is running on your Handibot. It can be useful for diagnostics:</p>
+            <div class="well" id="config-system-config">
+              <em>On a live Fabmo system, system configuration information would appear here.</em>
+            </div>
+        </div>
+      </div> <!-- tab content -->
+    </div><!-- container -->
+
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/fabmo.js"></script>
+  	<script type="text/javascript">
+  		var fabmo = new FabMoDashboard();
+  	</script>
+    <script src="js/control.js"></script>
+    <script src="js/preferences.js"></script>
+    <script src="js/helptab.js"></script>
+    <script src="js/actions.js"></script>
+   
+
+    <script type="text/javascript">
+        // Prevent a stray enter key from inadvertently submitting a form (and setting the tool in motion!)
+        $(document).ready(function() {
+          fabmo.getAppConfig(function(err,config){
+              var doclength = config.doclength || "long";
+              that = doclength;
+              if(that==='short') {
+                $('#short').prop("checked", true);
+              }
+              else {
+                $('#long').prop("checked", true);
+              }
+              updateConsolidation();
+            $(window).keydown(function(event){
+              if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+              }
+            });
+            $('#doclength').change(function(){
+                that = $('input[name="doclength"]:checked').val();
+                updateConsolidation();
+              });
+          });
+        });
+    </script>
+	<script src="js/macrofile.js"></script>
+    <script type="text/javascript">
+        fabmo.hideDRO();
+    </script>
+
+    <script type="text/javascript">
+        // Prevent a stray enter key from inadvertently submitting a form (and setting the tool in motion!)
+        $(document).ready(function() {
+          $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+              event.preventDefault();
+              return false;
+            }
+          });
+        });
+    </script>
+  </body>
+</html>

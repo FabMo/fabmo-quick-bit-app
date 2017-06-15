@@ -1,0 +1,15 @@
+{
+  "name": "Quick-Bit",
+  "main": "./index.html",
+  "icon": "icon.png",
+  "icon_color": "#3d48aa",
+  "version": "1.0.5",
+  "author": "Ted Hall + Brian Owen",
+  "website": "http://www.handibot.com",
+  "description": "Daily Handibot Start-Up and Info",
+  "id": "fabmo-quick-bit",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-zip": "^0.17.1"
+  }
+}
