@@ -21,6 +21,9 @@ $("#call-c3").click(function(evt) {
 $("#call-c88").click(function(evt) {
     fabmo.runSBP('C#,88');
 });
+$("#call-c89").click(function(evt) {
+    fabmo.runSBP('C#,89');
+});
 $("#call-home").click(function(evt) {
     fabmo.runSBP('MH,');
 });

@@ -76,6 +76,9 @@ $("#install-macro79").click(function(evt) {
 $("#install-macro88").click(function(evt) {
     InstallMacro(88, "macros","Quick-Bit","Measure Cutter Using Quick-Bit Pressure Sensitive Z Zero Plate");
 });
+$("#install-macro89").click(function(evt) {
+    InstallMacro(89, "macros","Quick-Bit","Measure Cutter Using Quick-Bit Pressure Sensitive Z Zero Plate (probing)");
+});
 $("#install-macro90").click(function(evt) {
     InstallMacro(90, "macros","MY_Variables","Load variables (with variable information)");
 });

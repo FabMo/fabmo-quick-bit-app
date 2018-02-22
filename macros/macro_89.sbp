@@ -16,9 +16,11 @@ $current_cutter_Zoffset := .25' Initializes permanent variables if not already s
 $x_backoff := .075
 $y_backoff := .075
 $z_backoff := .075
-$ZZeroInput := 5              ' Later also using system variable %(51) to read input; ... a temporary kludge
+'Set Zero Plate Adder (i.e. thickness) if not present
+$sandwich_thickness := .570
+$QuickBitInput := 5              ' Later also using system variable %(51) to read input; ... a temporary kludge
 &ZZeroPlateThickness := $sandwich_thickness  ' Setting in App Preferences
-  ' To only use pressure plate, change &ZZeroInput to 5
+  ' To only use pressure plate, change &QuickBitInput to 5
   ' ... Adjust plate thickness to 0.57
   ' ... AND change %(51) to %(55) in check_input subroutine
 
@@ -40,15 +42,15 @@ find_z_zero:
    'M2, 6, 0            ' Go to plate location
    'PAUSE "Attach Aligator Clip to Cutter Shank and Swing-Out Target. -Resume- when Ready"
    &zpos = %(3)
-   PZ, &zpos + &ZZeroSearchDistance, &ZZeroSearchSpeedFast, $ZZeroInput
+   PZ, &zpos + &ZZeroSearchDistance, &ZZeroSearchSpeedFast, $QuickBitInput
    ZZ
    JZ, $z_backoff
    ZZ
    &reapproach = -2 * $z_backoff
-   PZ, &reapproach, &ZZeroSearchSpeedSlow, $ZZeroInput
+   PZ, &reapproach, &ZZeroSearchSpeedSlow, $QuickBitInput
    ZZ
-   JZ, $z_backoff
-   VA,,, $z_backoff + &ZZeroPlateThickness
+   JZ, $z_backoff + 0.5
+   VA,,, $z_backoff + &ZZeroPlateThickness + 0.5
   ' Read in current System Variables for current Z and Z-tablebase-offset 
 	 &tempTB_Zoffset = %(8) 
   ' Reset current_cutter and Set Table Base Coordinates and Location to 0 for Z
